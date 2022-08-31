@@ -17,7 +17,8 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "none",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
@@ -25,15 +26,19 @@ const style = {
 export const Dialog = () => {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.dialog);
-  const { content, count } = useSelector((state: RootState) => state.todo);
 
   const [title, setTitle] = useState("");
 
   return (
     <div>
-      <Modal open={isOpen} onClose={() => dispatch(closeDialog())}>
+      <Modal
+        open={isOpen}
+        onClose={() => {
+          dispatch(closeDialog()), setTitle("");
+        }}
+      >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography variant="h6" component="h2">
             todoを追加しましょう！
           </Typography>
           <Box
@@ -44,10 +49,17 @@ export const Dialog = () => {
             }}
           >
             <Form placeHolder="タイトル" changeEvent={setTitle} value={title} />
-            <Button clickEvent={() => dispatch(addTodo(title))} text="追加" />
+            <Button
+              clickEvent={() => {
+                dispatch(addTodo(title)), setTitle("");
+              }}
+              text="追加"
+            />
           </Box>
           <LinkButton
-            clickEvent={() => dispatch(closeDialog())}
+            clickEvent={() => {
+              dispatch(closeDialog()), setTitle("");
+            }}
             text="閉じる"
           />
         </Box>

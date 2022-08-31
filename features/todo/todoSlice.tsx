@@ -16,8 +16,12 @@ const todoSlice = createSlice({
       state.content.push(action.payload);
       state.count = state.content.length;
     },
+    deleteTodo: (state, action) => {
+      state.content.splice(action.payload, 1);
+      state.count = state.content.length;
+    },
   },
 });
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo } = todoSlice.actions;
 export default todoSlice.reducer;
